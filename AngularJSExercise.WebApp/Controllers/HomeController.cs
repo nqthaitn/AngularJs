@@ -59,9 +59,10 @@ namespace AngularJSExercise.WebApp.Controllers
             return Json(products, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult GetProductByCategory(int id)
+        public JsonResult GetProductByCategory(int catId, int page)
         {
-            return Json(products.Where(p => p.CategoryId == id).ToList(),JsonRequestBehavior.AllowGet);
+            var lstProduct = products.Where(p => p.CategoryId == catId).ToList();
+            return Json(new {totalItems = lstProduct.Count, lstProduct = lstProduct.Skip((page - 1) * ItemsPerGage).Take(ItemsPerGage)},JsonRequestBehavior.AllowGet);
         }
 
         public JsonResult GetAllCategory()

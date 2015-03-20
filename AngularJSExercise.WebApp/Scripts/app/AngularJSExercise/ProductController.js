@@ -100,15 +100,15 @@ angular.module("app", []).controller("productController", ["$scope", "$http", "h
     };
 
     $scope.GetProductByCategory = function (categoryId) {
-
         var onComplete = function (response) {
-            $scope.products = response.data;
+            $scope.products = response.data.lstProduct;
+            $scope.totalPage = response.data.totalItems;
         };
         var onError = function () {
             alert("Could not fetch the data");
         };
 
-        $http.get("Home/GetProductByCategory?id=" + categoryId).then(onComplete, onError);
+        $http.get("Home/GetProductByCategory?catId=" + categoryId + "&page=" + $scope.currentPage).then(onComplete, onError);
     };
 
     var addProduct = function () {
@@ -171,7 +171,6 @@ angular.module("app", []).controller("productController", ["$scope", "$http", "h
         $scope.tempOrder = "Name";
         $scope.mode = "Add";
         $scope.toggleObject = { item: -1 };
-        $scope.itemPerPage = 5;
         $scope.currentPage = 1;
 
         getAllProducts();
